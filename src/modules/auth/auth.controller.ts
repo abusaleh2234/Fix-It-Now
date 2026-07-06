@@ -19,6 +19,44 @@ const userRegister = catchAsync(async (req: Request,res: Response,next: NextFunc
         })
 })
 
+const loginUser = catchAsync( async (req: Request, res: Response,next: NextFunction) => {
+    const payload =req.body
+
+    const {accessToken, refreshToken} = await authServices.loginUser(payload)
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "none",
+        maxAge: 1000  * 60 * 60 * 24
+    })
+    res.cookie("refreshToken", refreshToken,{
+        httpOnly: true,
+        secure: false,
+        sameSite: "none",
+        maxAge: 1000  * 60 * 60 * 24 * 7
+    })
+    sendResponse(res,{
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "User Login successfully",
+        data: {accessToken, refreshToken}
+    })
+})
+
+const getMyProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    
+    const profile =await authServices.getMyProfile(req.user?.id as string)
+
+    
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "User Profile Fetch successfully",
+        data: profile
+    })
+})
 export const authController = {
-    userRegister
+    userRegister,
+    loginUser,
+    getMyProfile
 }

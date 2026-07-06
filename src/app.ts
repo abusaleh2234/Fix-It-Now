@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import config from "./config";
 import { authRouter } from "./modules/auth/auth.router";
+import { technicianRouter } from "./modules/technician/technician.router";
 
 const app = express();
 
@@ -20,4 +21,5 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth",authRouter)
+app.use("/api/technician",technicianRouter)
 export default app;

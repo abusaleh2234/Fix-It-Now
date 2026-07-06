@@ -5,3 +5,7 @@ export interface UserRegisterPayload {
     profileImage?:string
     bio?: string
 }
+export interface ILoginUserPayload {
+    email: string,
+    password: string
+}
