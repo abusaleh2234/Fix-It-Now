@@ -12,7 +12,7 @@ model User {
   name        String    @db.VarChar(250)
   email       String   @unique
   password    String
-  profileImage String? 
+  profileImage String?
   bio          String?
 
   role        UserRole   @default(CUSTOMER)
