@@ -14,8 +14,8 @@ model User {
 
   technicianProfile TechnicianProfile?
 
-//   customerBookings   Booking[] @relation("CustomerBookings")
-//   technicianBookings Booking[] @relation("TechnicianBookings")
+  customerBookings   Booking[] @relation("CustomerBookings")
+  technicianBookings Booking[] @relation("TechnicianBookings")
 
 //   customerReviews    Review[] @relation("CustomerReviews")
 //   technicianReviews  Review[] @relation("TechnicianReviews")
