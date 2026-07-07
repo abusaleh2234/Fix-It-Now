@@ -52,7 +52,22 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
     })
     return technicianProfile
 }
-
+const getTechnicianById = async (technicianId: string) => {
+    const technician = await prisma.technicianProfile.findUnique({
+        where: {
+            id: technicianId
+        },
+        include: {
+            user: {
+                omit: {
+                    password :true
+                }
+            }
+        }
+    })
+    return technician
+}
 export const technicianServices = {
-    technicianCreate
+    technicianCreate,
+    getTechnicianById
 }

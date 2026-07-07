@@ -17,7 +17,21 @@ const technicianCreate = catchAsync(async (req: Request, res: Response, next: Ne
         data: result
     })
 })
+const getTechnicianById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const technicianId = req.params.id
+
+    const result = await technicianServices.getTechnicianById(technicianId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Technician Profile Create Successfully",
+        data: result
+    })
+})
+
 
 export const technicianController = {
-    technicianCreate
+    technicianCreate,
+    getTechnicianById
 }
