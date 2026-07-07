@@ -8,7 +8,6 @@ model Service {
   description     String
 
   price           Float
-  duration        Int
 
   technician       TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
   category         Category          @relation(fields: [categoryId], references: [id])
