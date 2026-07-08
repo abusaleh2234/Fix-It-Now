@@ -31,8 +31,24 @@ const getTechnicianById = catchAsync(async (req: Request, res: Response, next: N
     })
 })
 
+const updateBookingStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id
+    const technicianId = req.user?.id
+    const payload = req.body
+
+    // console.log(bookingId,technicianId,payload);
+    const result = await technicianServices.updateBookingStatus(payload, bookingId as string, technicianId as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: `booking status ${""} is updated`,
+        data: result
+    })
+})
+
 
 export const technicianController = {
     technicianCreate,
-    getTechnicianById
+    getTechnicianById,
+    updateBookingStatus
 }

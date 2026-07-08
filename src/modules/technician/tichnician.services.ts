@@ -19,7 +19,7 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
         }
     })
 
-    if (!isExistTechnician) {        
+    if (!isExistTechnician) {
         await prisma.user.update({
             where: {
                 id: user.id
@@ -60,14 +60,46 @@ const getTechnicianById = async (technicianId: string) => {
         include: {
             user: {
                 omit: {
-                    password :true
+                    password: true
                 }
             }
         }
     })
     return technician
 }
+const updateBookingStatus = async (payload: {status: "ACCEPTED" | "DECLINED" | "COMPLETED"}, bookingId: string, technicianId: string) => {
+    const booking = await prisma.booking.findUnique({
+        where: {
+            id: bookingId,
+        },
+    });
+    if (!booking) {
+        throw new Error("Booking not found");
+    }
+    if (booking.technicianId !== technicianId) {
+        throw new Error("Unauthorized");
+    }
+    if (
+        booking.status === "DECLINED" ||
+        booking.status === "COMPLETED"
+    ) {
+        throw new Error("Booking status cannot be updated");
+    }
+    // console.log(booking.status, payload.status);
+    
+    const updatedBooking = await prisma.booking.update({
+        where: {
+            id: bookingId,
+        },
+        data: {
+            status: payload.status,
+        },
+    });
+
+    return updatedBooking;
+}
 export const technicianServices = {
     technicianCreate,
-    getTechnicianById
+    getTechnicianById,
+    updateBookingStatus
 }

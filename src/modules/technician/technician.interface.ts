@@ -3,3 +3,9 @@ export interface ITechnicianProfile {
   experience?: number;
   hourlyRate?: number;
 }
+
+export enum  IStatus {
+  "ACCEPTED",
+  "DECLINED" , 
+  "COMPLETED"
+}
