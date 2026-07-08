@@ -14,7 +14,46 @@ const customerBookingCreate = catchAsync(async(req: Request, res: Response, next
         data: booking
     })
 })
+const getCustomerBooking = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id
 
+    const bookings = await bookingServices.getCustomerBooking(userId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Your Booking is retrieved successfully",
+        data: bookings
+    })
+})
+const getTechnicianBooking = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id
+    console.log(userId);
+    
+    const bookings = await bookingServices.getCustomerBooking(userId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Your Bookings is retrieved successfully",
+        data: bookings
+    })
+})
+const getBookingByID = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id
+
+    const booking = await bookingServices.getBookingByID(bookingId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Booking retrieved successfully",
+        data: booking
+    })
+})
 export const bookingController = {
-    customerBookingCreate
+    customerBookingCreate,
+    getCustomerBooking,
+    getBookingByID,
+    getTechnicianBooking
 }

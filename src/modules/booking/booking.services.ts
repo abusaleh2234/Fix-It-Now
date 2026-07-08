@@ -49,7 +49,41 @@ const customerBookingCreate =async (payload: IBookingPayload, userId: string) =>
     })
     return booking
 }
+const getCustomerBooking =async (userId: string) => {
+    const bookings = await prisma.booking.findMany({
+        where: {
+            customerId: userId
+        }
+    })
+    return bookings
+}
+const getTechnicianBooking =async (userId: string) => {
+    const bookings = await prisma.booking.findMany({
+        where: {
+            technicianId: userId
+        }
+    })
+    return bookings
+}
 
+const getBookingByID = async (bookingId: string) => {
+    const booking = await prisma.booking.findUnique({
+        where: {
+            id: bookingId
+        },
+        include:{
+            customer: {
+                omit: {
+                    password: true
+                }
+            }
+        }
+    })
+    return booking
+}
 export const bookingServices = {
-    customerBookingCreate
+    customerBookingCreate,
+    getCustomerBooking,
+    getBookingByID,
+    getTechnicianBooking
 }
