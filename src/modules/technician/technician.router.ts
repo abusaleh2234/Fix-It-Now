@@ -6,6 +6,7 @@ import { bookingController } from "../booking/booking.controller";
 
 const router = Router()
 
+router.post("/availability",)
 router.get("/bookings",
     auth(UserRole.ADMIN,UserRole.TECHNICIAN),
     bookingController.getTechnicianBooking

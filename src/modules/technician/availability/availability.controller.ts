@@ -1,0 +1,21 @@
+import { NextFunction, Request, Response } from "express";
+import { catchAsync } from "../../../utils/catchAsync";
+import { sendResponse } from "../../../utils/sendResponse";
+import httpStatus from "http-status"
+import { availabilityServices } from "./availability.services";
+
+const createAvailability = catchAsync(async (req: Request, res: Response, next: NextFunction)  => {
+    const userId = req.user?.id
+    const payload = req.body
+    const availability = await availabilityServices.createAvailability(userId as string,payload)
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Technician availability create successfully.",
+        data: availability
+    })
+})
+
+export const availabilityController ={ 
+    createAvailability
+}
