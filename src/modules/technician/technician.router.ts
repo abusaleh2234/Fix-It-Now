@@ -3,10 +3,12 @@ import { technicianController } from "./technician.controller";
 import { auth } from "../../middlewares/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { bookingController } from "../booking/booking.controller";
+import { availabilityController } from "./availability/availability.controller";
 
 const router = Router()
 
-router.post("/availability",)
+router.post("/availability",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.createAvailability)
+router.get("/availability",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.getAvailability)
 router.get("/bookings",
     auth(UserRole.ADMIN,UserRole.TECHNICIAN),
     bookingController.getTechnicianBooking
