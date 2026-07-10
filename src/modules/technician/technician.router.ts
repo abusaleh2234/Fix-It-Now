@@ -9,6 +9,8 @@ const router = Router()
 
 router.post("/availability",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.createAvailability)
 router.get("/availability",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.getAvailability)
+router.put("/availability/:id",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.updateAvailability)
+router.delete("/availability/:id",auth(UserRole.ADMIN,UserRole.TECHNICIAN),availabilityController.deleteAvailability)
 router.get("/bookings",
     auth(UserRole.ADMIN,UserRole.TECHNICIAN),
     bookingController.getTechnicianBooking

@@ -25,8 +25,33 @@ const getAvailability = catchAsync(async (req: Request, res: Response, next: Nex
         data: result
     })
 })
+const updateAvailability = catchAsync(async (req: Request, res: Response, next: NextFunction)  => {
+    const availabilityID = req.params.id
+    const userId = req.user?.id
+    const payload = req.body
+    const result = await availabilityServices.updateAvailability(userId as string, availabilityID as string, payload)
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Technician availability create successfully.",
+        data: result
+    })
+})
+const deleteAvailability = catchAsync(async (req: Request, res: Response, next: NextFunction)  => {
+    const availabilityID = req.params.id
+    const userId = req.user?.id
+    const result = await availabilityServices.deleteAvailability(userId as string, availabilityID as string)
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Technician availability create successfully.",
+        data: result
+    })
+})
 
 export const availabilityController ={ 
     createAvailability,
-    getAvailability
+    getAvailability,
+    updateAvailability,
+    deleteAvailability
 }
