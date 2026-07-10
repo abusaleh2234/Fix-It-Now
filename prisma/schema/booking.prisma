@@ -23,7 +23,7 @@ model Booking {
   service         Service @relation(fields: [serviceId], references: [id])
 
 //   payment         Payment?
-//   review          Review?
+  review          Review?
 
   @@map("bookings")
 }

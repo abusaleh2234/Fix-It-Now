@@ -6,9 +6,9 @@ model Service {
 
   title           String
   description     String
-
+  rating          Float @default(0)
   price           Float
-
+  location        String
   technician       TechnicianProfile @relation(fields: [technicianId], references: [id], onDelete: Cascade)
   category         Category          @relation(fields: [categoryId], references: [id])
 

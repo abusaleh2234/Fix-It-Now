@@ -41,7 +41,7 @@ const updateBookingStatus = catchAsync(async (req: Request, res: Response, next:
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,
-        message: `booking status ${""} is updated`,
+        message: `booking status ${result.status} is updated`,
         data: result
     })
 })

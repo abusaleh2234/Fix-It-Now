@@ -18,7 +18,19 @@ const createServices = catchAsync(async(req: Request, res: Response, next: NextF
 
     })
 })
+const getAllServices = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
+    const query = req.query
 
+    const services = await Technician_serviceServices.getAllServices(query)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Services retrieved successfully",
+        data: services
+    })
+})
 export const servicesController = {
-    createServices
+    createServices,
+    getAllServices
 }
