@@ -2,6 +2,8 @@ export interface ITechnicianProfile {
   bio?: string;
   experience?: number;
   hourlyRate?: number;
+  location?: string     
+
 }
 
 export enum  IStatus {

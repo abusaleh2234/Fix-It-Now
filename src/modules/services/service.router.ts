@@ -5,6 +5,6 @@ import { servicesController } from "./service.controller";
 
 const router = Router()
 
-router.post("/",auth(UserRole.TECHNICIAN),servicesController.createServices)
+router.post("/",auth(UserRole.TECHNICIAN,UserRole.ADMIN),servicesController.createServices)
 router.get("/",servicesController.getAllServices)
 export const servicesRouter = router

@@ -3,7 +3,7 @@ import { prisma } from "../../lib/prisma";
 import { IServicesPayload, IServicesQuery } from "./services.interface";
 
 const createServices = async (payload: IServicesPayload, userId: string) => {
-    const { categoryId, title, description, price,location } = payload
+    const { categoryId, title, description, price} = payload
     const technician = await prisma.technicianProfile.findUnique({
         where: {
             userId
@@ -31,8 +31,7 @@ const createServices = async (payload: IServicesPayload, userId: string) => {
             categoryId: isExistCategory.id,
             title,
             description,
-            price,
-            location
+            price
         },
         include: {
             technician: {
@@ -47,6 +46,10 @@ const createServices = async (payload: IServicesPayload, userId: string) => {
 }
 const getAllServices = async (query: IServicesQuery) => {
     // const type = query.type ? query.type : ""
+    const sortBy = query.sortBy ? query.sortBy : "createdAt";
+    const sortOrder = query.sortOrder ? query.sortOrder : "desc"
+    console.log(query.location);
+    
     const getCondition: ServiceWhereInput[] = []
 
     if (query.search) {
@@ -83,20 +86,18 @@ const getAllServices = async (query: IServicesQuery) => {
     }
     if (query.location) {
         getCondition.push({
-            location: query.location
+            technician: {
+                location: query.location
+            }
         })
     }
-    // if(query.rating) {
-    //     getCondition.push({
-    //         rating: query.rating
-    //     })
-    // }
+
     const service = await prisma.service.findMany({
         where: {
             AND: getCondition
         },
         orderBy: {
-            rating: "desc"
+            [sortBy]: sortOrder
         },
         include: {
             technician: true

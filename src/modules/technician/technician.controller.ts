@@ -7,7 +7,7 @@ import httpStatus from "http-status"
 const technicianCreate = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const userid = req.user?.id
     const payload = req.body
-    console.log(payload);
+    // console.log(payload);
     
     const result = await technicianServices.technicianCreate(payload,userid as string)
 

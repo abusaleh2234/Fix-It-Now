@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma"
 import { ITechnicianProfile } from "./technician.interface"
 
 const technicianCreate = async (payload: ITechnicianProfile, userId: string) => {
-    const { bio, experience, hourlyRate } = payload
+    const { bio,  location, experience, hourlyRate } = payload
 
     const user = await prisma.user.findUnique({
         where: {
@@ -18,7 +18,8 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
             userId: user?.id
         }
     })
-
+    console.log(location);
+    
     if (!isExistTechnician) {
         await prisma.user.update({
             where: {
@@ -29,6 +30,7 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
                 technicianProfile: {
                     create: {
                         bio,
+                        location,
                         experience,
                         hourlyRate
                     }

@@ -3,8 +3,7 @@ export interface IServicesPayload {
     title: string,
     description: string,
     price: number,
-    duration: number,
-    location: string
+    duration: number
 }
 
 export interface IServicesQuery {
