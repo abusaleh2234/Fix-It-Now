@@ -48,7 +48,7 @@ const getAllServices = async (query: IServicesQuery) => {
     // const type = query.type ? query.type : ""
     const sortBy = query.sortBy ? query.sortBy : "createdAt";
     const sortOrder = query.sortOrder ? query.sortOrder : "desc"
-    console.log(query.location);
+    // console.log(query.location);
     
     const getCondition: ServiceWhereInput[] = []
 

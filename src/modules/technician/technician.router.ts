@@ -15,8 +15,8 @@ router.get("/bookings",
     auth(UserRole.ADMIN,UserRole.TECHNICIAN),
     bookingController.getTechnicianBooking
 )
+router.get("/",technicianController.getTechnicians)
 router.get("/:id",technicianController.getTechnicianById)
-
 router.put("/profile",auth(UserRole.ADMIN,UserRole.CUSTOMER,UserRole.TECHNICIAN),
     technicianController.technicianCreate)
 router.patch("/bookings/:id",auth(UserRole.TECHNICIAN),technicianController.updateBookingStatus)

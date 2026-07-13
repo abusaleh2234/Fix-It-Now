@@ -5,7 +5,14 @@ export interface ITechnicianProfile {
   location?: string     
 
 }
-
+export interface ITechnicianQuery {
+    name?: string
+    location?:string
+    isAvailable?: boolean
+    search?: string
+    sortOrder?: string
+    sortBy?: string
+}
 export enum  IStatus {
   "ACCEPTED",
   "DECLINED" , 

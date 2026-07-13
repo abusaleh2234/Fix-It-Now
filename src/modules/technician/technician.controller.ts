@@ -18,6 +18,18 @@ const technicianCreate = catchAsync(async (req: Request, res: Response, next: Ne
         data: result
     })
 })
+const getTechnicians = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const query = req.query 
+
+    const result = await technicianServices.getTechnicians(query)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.CREATED,
+        message: "Technician Profile retrieved Successfully",
+        data: result
+    })
+})
 const getTechnicianById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const technicianId = req.params.id
 
@@ -50,5 +62,6 @@ const updateBookingStatus = catchAsync(async (req: Request, res: Response, next:
 export const technicianController = {
     technicianCreate,
     getTechnicianById,
-    updateBookingStatus
+    updateBookingStatus,
+    getTechnicians
 }

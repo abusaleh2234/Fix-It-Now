@@ -1,5 +1,6 @@
+import { TechnicianProfileWhereInput } from "../../../generated/prisma/models"
 import { prisma } from "../../lib/prisma"
-import { ITechnicianProfile } from "./technician.interface"
+import { ITechnicianProfile, ITechnicianQuery } from "./technician.interface"
 
 const technicianCreate = async (payload: ITechnicianProfile, userId: string) => {
     const { bio,  location, experience, hourlyRate } = payload
@@ -39,7 +40,6 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
         })
     }
 
-
     const technicianProfile = await prisma.user.findUnique({
         where: {
             id: user.id,
@@ -54,6 +54,72 @@ const technicianCreate = async (payload: ITechnicianProfile, userId: string) => 
     })
     return technicianProfile
 }
+const getTechnicians = async (query: ITechnicianQuery) => {
+    const queryValue = query.isAvailable !== undefined ? true : query.isAvailable
+    const sortBy = query.sortBy ? query.sortBy : "createdAt";
+    const sortOrder = query.sortOrder ? query.sortOrder : "desc"
+
+    const andCondition: TechnicianProfileWhereInput[] = []
+
+    if (query.search) {
+        andCondition.push(
+            {
+                OR: [
+                    {
+                        user: {
+                            name: {
+                                contains: query.search,
+                                mode: "insensitive"
+                            }
+                        }
+                    },
+                    {
+                        bio: {
+                            contains: query.search,
+                            mode: "insensitive"
+                        }
+                    }
+                ]
+            }
+        )
+    }
+    if (query.isAvailable) {
+        andCondition.push({
+            isAvailable: queryValue
+        })
+    }
+    if (query.name) {
+        andCondition.push({
+            user: {
+                name: query.name
+            }
+        })
+    }
+    if (query.location) {
+        andCondition.push({
+            location: query.location
+        })
+    }
+    const technicians = await prisma.technicianProfile.findMany({
+        where:{
+            AND: andCondition
+        },
+        orderBy: {
+            [sortBy]: sortOrder
+        },
+        include: {
+            user: {
+                omit: {
+                    password: true
+                },
+                include:{
+                    customerReviews: true
+                }
+            },
+        }
+    })
+    return technicians
+}
 const getTechnicianById = async (technicianId: string) => {
     const technician = await prisma.technicianProfile.findUnique({
         where: {
@@ -63,8 +129,11 @@ const getTechnicianById = async (technicianId: string) => {
             user: {
                 omit: {
                     password: true
+                },
+                include:{
+                    customerReviews: true
                 }
-            }
+            },
         }
     })
     return technician
@@ -103,5 +172,6 @@ const updateBookingStatus = async (payload: {status: "ACCEPTED" | "DECLINED" | "
 export const technicianServices = {
     technicianCreate,
     getTechnicianById,
-    updateBookingStatus
+    updateBookingStatus,
+    getTechnicians
 }
