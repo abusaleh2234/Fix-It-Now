@@ -1,7 +1,7 @@
 export interface IBookingPayload {
     // technicianId: string
     serviceId: string
-    bookingDate: Date
+    bookingDate: string
     address: string
     note?: string
     totalAmount: number
